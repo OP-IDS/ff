@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Premium Free Fire ID Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+      --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+      --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .bg-animated {
+      background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #0f0f0f, #2d2d2d);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .neon-glow {
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.3);
+    }
+
+    .premium-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .premium-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+      border-radius: 22px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .premium-card:hover::before {
+      opacity: 1;
+    }
+
+    .premium-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .floating-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-elements::before,
+    .floating-elements::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-elements::before {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .floating-elements::after {
+      bottom: 20%;
+      right: 10%;
+      animation-delay: 3s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .premium-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      padding: 12px 32px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .premium-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .premium-btn:hover::before {
+      left: 100%;
+    }
+
+    .premium-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .modal-backdrop {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 25px;
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .price-tag {
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 18px;
+      text-shadow: none;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .level-badge {
+      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .kd-badge {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .skins-badge {
+      background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-img:hover {
+      transform: scale(1.05);
+      border-color: rgba(102, 126, 234, 0.5);
+      cursor: pointer;
+    }
+
+    .image-viewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .image-viewer.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .image-viewer-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      animation: imageZoomIn 0.3s ease-out;
+    }
+
+    .image-viewer-content img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .image-viewer-close {
+      position: absolute;
+      top: -40px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-viewer-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .image-viewer-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-viewer-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .image-viewer-prev {
+      left: 20px;
+    }
+
+    .image-viewer-next {
+      right: 20px;
+    }
+
+    .image-viewer-counter {
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes imageZoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .filter-active {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="floating-elements"></div>
+  
+  <div class="relative z-10">
+    <!-- Hero Section -->
+    <header class="text-center py-16 relative">
+      <div class="glass-effect mx-auto max-w-4xl rounded-3xl p-8 neon-glow">
+        <h1 class="hero-title mb-4">🔥 FF ID HOUSE 🔥</h1> 
+        <p class="text-xl text-gray-300 font-light">Premium Gaming Accounts • Legendary Collections • Instant Delivery</p>
+        <div class="mt-8 flex justify-center space-x-4">
+          <div class="text-center">
+            <div class="text-2xl font-bold text-yellow-400">500+</div>
+            <div class="text-sm text-gray-400">Happy Customers</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-blue-400">24/7</div>
+            <div class="text-sm text-gray-400">Support</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-green-400">100%</div>
+            <div class="text-sm text-gray-400">Secure</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filter Section -->
+    <section class="text-center mt-12 px-4">
+      <h2 class="section-title">Choose Your Budget</h2>
+      <div class="flex justify-center space-x-4 flex-wrap gap-4">
+        <button class="filter-btn premium-btn" data-range="700">Under ₹700</button>
+        <button class="filter-btn premium-btn" data-range="1000">₹700 - ₹1000</button>
+        <button class="filter-btn premium-btn" data-range="9999">Above ₹1000</button>
+      </div>
+    </section>
+
+    <!-- Filtered Products -->
+    <section class="text-center mt-16 px-4">
+      <h2 class="text-2xl font-bold mb-8 text-gray-300">Filtered Collection</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" id="productGrid"></div>
+    </section>
+
+    <!-- All Products -->
+    <section class="text-center mt-20 px-4">
+      <h2 class="section-title">Complete Collection</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" id="allIdsSection"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center mt-20 py-12 glass-effect">
+      <div class="max-w-4xl mx-auto px-4">
+        <h3 class="text-2xl font-bold mb-4">Premium Gaming Experience</h3>
+        <p class="text-gray-400 mb-6">Join thousands of satisfied customers who trust our premium Free Fire accounts</p>
+        <div class="flex justify-center space-x-6 text-sm text-gray-500">
+          <span>🛡️ Secure Transactions</span>
+          <span>⚡ Instant Delivery</span>
+          <span>🎮 Premium Support</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Image Viewer -->
+  <div id="imageViewer" class="image-viewer">
+    <div class="image-viewer-content">
+      <button class="image-viewer-close" onclick="closeImageViewer()">&times;</button>
+      <button class="image-viewer-nav image-viewer-prev" onclick="prevImage()">‹</button>
+      <button class="image-viewer-nav image-viewer-next" onclick="nextImage()">›</button>
+      <img id="viewerImage" src="" alt="Gallery Image">
+      <div class="image-viewer-counter">
+        <span id="imageCounter">1 / 3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
+    <div class="modal-content text-white rounded-3xl p-8 max-w-2xl w-full relative">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+      
+      <h2 class="text-3xl font-bold mb-2 text-center" id="modalTitle"></h2>
+      <p id="modalPrice" class="mb-6 text-center text-2xl"></p>
+      
+      <div class="image-gallery" id="modalImages"></div>
+      
+      <div class="flex justify-center space-x-4 mt-8">
+        <button onclick="closeModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-full transition-all">Cancel</button>
+        <a id="buyLink" href="#" target="_blank" class="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 rounded-full transition-all font-semibold">Purchase Now</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+       { id: 1, price: 500, image: "cover1.jpg", gallery: ["cover1.2.jpg", "cover1.3.jpg", "cover1.4.jpg", "cover1.5.jpg", "cover1.6.jpg", "cover1.7.jpg"], details: { level: 70, kd: "3.8", gunSkins: "70+" } },
+      { id: 2, price: 600, image: "cover2.jpg", gallery: ["cover2.1.jpg", "cover2.2.jpg", "cover2.3.jpg", "cover2.4.jpg", "cover2.5.jpg", "cover2.6.jpg"], details: { level: 70, kd: "4.2", gunSkins: "70+" } },
+      { id: 3, price: 600, image: "cover3.jpg", gallery: ["cover3.1.jpg", "cover3.2.jpg", "cover3.3.jpg", "cover3.4.jpg", "cover3.5.jpg", "cover3.6.jpg"], details: { level: 70, kd: "4.7", gunSkins: "80+" } },
+      { id: 4, price: 800, image: "cover4.jpg", gallery: ["cover4.1.jpg", "cover4.2.jpg", "cover4.3.jpg", "cover4.4.jpg", "cover4.5.jpg", "cover4.6.jpg"], details: { level: 72, kd: "5.1", gunSkins: "80+evo" } },
+      { id: 5, price: 900, image: "cover5.jpg", gallery: ["cover5.1.jpg", "cover5.2.jpg", "cover5.3.jpg", "cover5.4.jpg", "cover5.5.jpg", "cover5.6.jpg"], details: { level: 73, kd: "5.5", gunSkins: "90+veo" } },
+      { id: 6, price: 1000, image: "cover6.jpg", gallery: ["cover6.1.jpg", "cover6.2.jpg", "cover6.3.jpg", "cover6.4.jpg", "cover6.5.jpg", "cover6.6.jpg"], details: { level: 80, kd: "5.9", gunSkins: "100+evo" } },
+      { id: 7, price: 1000, image: "cover7.jpg", gallery: ["cover7.1.jpg", "cover7.2.jpg", "cover7.3.jpg", "cover7.4.jpg", "cover7.5.jpg", "cover7.6.jpg"], details: { level: 80, kd: "6.2", gunSkins: "16+" } },
+      { id: 8, price: 1200, image: "cover8.jpg", gallery: ["cover8.1.jpg", "cover8.2.jpg", "cover8.3.jpg", "cover8.4.jpg", "cover8.5.jpg", "cover8.6.jpg"], details: { level: 71, kd: "6.6", gunSkins: "18+" } },
+      { id: 9, price: 1200, image: "cover9.jpg", gallery: ["cover9.1.jpg", "cover9.2.jpg", "cover9.3.jpg", "cover9.4.jpg", "cover9.5.jpg", "cover9.6.jpg"], details: { level: 76, kd: "7.0", gunSkins: "20+" } },
+    ];
+
+    const grid = document.getElementById("productGrid");
+    const allSection = document.getElementById("allIdsSection");
+    
+    // Image viewer variables
+    let currentImages = [];
+    let currentImageIndex = 0;
+
+    function renderProducts(maxPrice = 9999) {
+      grid.innerHTML = "";
+      const filtered = products.filter(p => {
+        if (maxPrice === 700) return p.price <= 700;
+        if (maxPrice === 1000) return p.price > 700 && p.price <= 1000;
+        if (maxPrice === 9999) return p.price > 1000;
+      });
+      
+      filtered.forEach(product => renderCard(grid, product));
+    }
+
+    function renderCard(container, product) {
+      const cardHTML = `
+        <div class="premium-card p-6 h-auto cursor-pointer" onclick="buyID(${product.id}, ${product.price})">
+          <div class="relative mb-4">
+            <img src="${product.image}" alt="FF ID ${product.id}" class="w-full h-48 object-cover rounded-lg shadow-lg">
+            <div class="absolute top-2 right-2">
+              <span class="price-tag">₹${product.price}</span>
+            </div>
+          </div>
+          
+          <div class="text-center">
+            <h3 class="text-xl font-bold mb-3 text-white">Elite ID #${product.id}</h3>
+            
+            <div class="flex flex-wrap justify-center gap-2 mb-4">
+              <span class="level-badge">Level ${product.details.level}</span>
+              <span class="kd-badge">K/D ${product.details.kd}</span>
+              <span class="skins-badge">${product.details.gunSkins} Skins</span>
+            </div>
+            
+            <button class="premium-btn w-full">View Details</button>
+          </div>
+        </div>
+      `;
+      
+      container.innerHTML += cardHTML;
+    }
+
+    function renderAllIDs() {
+      allSection.innerHTML = "";
+      products.forEach(product => renderCard(allSection, product));
+    }
+
+    function buyID(id, price) {
+      const product = products.find(p => p.id === id);
+      const modal = document.getElementById("modal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalPrice = document.getElementById("modalPrice");
+      const modalImages = document.getElementById("modalImages");
+      const buyLink = document.getElementById("buyLink");
+      document.getElementById("paymentAmount").innerText = `Amount: ₹${price}`;
+
+      modalTitle.innerText = `Elite ID #${id}`;
+      modalPrice.innerHTML = `<span class="price-tag">₹${price}</span>`;
+      
+      modalImages.innerHTML = "";
+      product.gallery.forEach((url, index) => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = `FF ID ${id}`;
+        img.className = "gallery-img";
+        img.onclick = (e) => {
+          e.stopPropagation();
+          openImageViewer(product.gallery, index);
+        };
+        modalImages.appendChild(img);
+      });
+
+      buyLink.href = `text=I%20want%20to%20buy%20Free%20Fire%20ID%20${id}%20for%20₹${price}`;
+      modal.classList.remove("hidden");
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.add("hidden");
+      document.body.style.overflow = 'auto';
+    }
+
+    // Image viewer functions
+    function openImageViewer(images, startIndex = 0) {
+      currentImages = images;
+      currentImageIndex = startIndex;
+      
+      const viewer = document.getElementById("imageViewer");
+      const viewerImage = document.getElementById("viewerImage");
+      const counter = document.getElementById("imageCounter");
+      
+      viewerImage.src = currentImages[currentImageIndex];
+      counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+      
+      viewer.classList.add("active");
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageViewer() {
+      const viewer = document.getElementById("imageViewer");
+      viewer.classList.remove("active");
+      document.body.style.overflow = 'auto';
+    }
+
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+      const viewerImage = document.getElementById("viewerImage");
+      const counter = document.getElementById("imageCounter");
+      
+      viewerImage.src = currentImages[currentImageIndex];
+      counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+    }
+
+    function prevImage() {
+      currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+      const viewerImage = document.getElementById("viewerImage");
+      const counter = document.getElementById("imageCounter");
+      
+      viewerImage.src = currentImages[currentImageIndex];
+      counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+    }
+
+    // Filter button functionality
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        // Remove active class from all buttons
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("filter-active"));
+        // Add active class to clicked button
+        btn.classList.add("filter-active");
+        
+        const range = parseInt(btn.getAttribute("data-range"));
+        renderProducts(range);
+      });
+    });
+
+    // Close modal when clicking outside
+    document.getElementById("modal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        closeModal();
+      }
+    });
+
+    // Close image viewer when clicking outside
+    document.getElementById("imageViewer").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        closeImageViewer();
+      }
+    });
+
+    // Keyboard navigation for image viewer
+    document.addEventListener("keydown", (e) => {
+      const viewer = document.getElementById("imageViewer");
+      if (viewer.classList.contains("active")) {
+        switch(e.key) {
+          case "Escape":
+            closeImageViewer();
+            break;
+          case "ArrowLeft":
+            prevImage();
+            break;
+          case "ArrowRight":
+            nextImage();
+            break;
+        }
+      }
+    });
+
+    // Initialize
+    renderProducts();
+    renderAllIDs();
+  </script>
+
+
+  <!-- Payment Method Modal -->
+  <div id="paymentOptionsModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
+    <div class="modal-content text-white rounded-3xl p-8 max-w-md w-full relative">
+      <button onclick="closePaymentOptions()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+      <h2 class="text-2xl font-bold mb-6 text-center">Choose Payment Method</h2>
+      <div class="grid grid-cols-1 gap-4">
+        <button onclick="showQR('GPay')" class="premium-btn w-full">GPay</button>
+        <button onclick="showQR('PhonePe')" class="premium-btn w-full">PhonePe</button>
+        <button onclick="showQR('Paytm')" class="premium-btn w-full">Paytm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div id="qrModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
+    <div class="modal-content text-white rounded-3xl p-8 max-w-md w-full relative text-center">
+      <button onclick="closeQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+      <h2 class="text-2xl font-bold mb-4" id="paymentMethodTitle"></h2>
+      <img src="qr.jpg" alt="QR Code" class="w-64 h-64 mx-auto rounded-xl shadow-xl border border-white/10">
+      <p id="paymentAmount" class="text-lg font-semibold text-white-000 mb-4">Amount: ₹0</p>
+      <p class="mt-4 text-gray-300">Scan the QR to pay via your chosen method</p>
+<div id="qrModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 hidden z-50">
+  <div class="bg-white p-6 rounded-2xl shadow-lg w-96 text-center relative">
+    <h3 class="text-xl font-bold mb-4">Scan QR to Pay</h3>
+    <img id="qrImage" src="https://i.ibb.co/8z1xw6t/qr.png" alt="QR Code" class="w-40 h-40 mx-auto mb-4 border-4 border-gray-200 rounded-lg">
+    
+    <!-- Show payment amount -->
+    <p id="paymentAmount" class="text-lg font-semibold text-red-600 mb-4">Amount: ₹0</p>
+
+    <button onclick="closeQRModal()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Close</button>
+  </div>
+</div>
+    </div>
+  </div>
+
+  <script>
+    function buyID(id, price) {
+      const product = products.find(p => p.id === id);
+      const modal = document.getElementById("modal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalPrice = document.getElementById("modalPrice");
+      const modalImages = document.getElementById("modalImages");
+      const buyLink = document.getElementById("buyLink");
+     document.getElementById("paymentAmount").innerText = `Amount: ₹${price}`;
+
+      modalTitle.innerText = `Elite ID #${id}`;
+      modalPrice.innerHTML = `<span class="price-tag">₹${price}</span>`;
+
+      modalImages.innerHTML = "";
+      product.gallery.forEach((url, index) => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = `FF ID ${id}`;
+        img.className = "gallery-img";
+        img.onclick = (e) => {
+          e.stopPropagation();
+          openImageViewer(product.gallery, index);
+        };
+        modalImages.appendChild(img);
+      });
+
+      buyLink.onclick = (e) => {
+        e.preventDefault();
+        closeModal();
+        document.getElementById("paymentOptionsModal").classList.remove("hidden");
+        document.body.style.overflow = 'hidden';
+      };
+
+      modal.classList.remove("hidden");
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePaymentOptions() {
+      document.getElementById("paymentOptionsModal").classList.add("hidden");
+      document.body.style.overflow = 'auto';
+    }
+
+    function showQR(method) {
+      document.getElementById("paymentOptionsModal").classList.add("hidden");
+      const qrModal = document.getElementById("qrModal");
+      document.getElementById("paymentMethodTitle").innerText = `Pay via ${method}`;
+      qrModal.classList.remove("hidden");
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeQRModal() {
+      document.getElementById("qrModal").classList.add("hidden");
+      document.body.style.overflow = 'auto';
+    }
+  </script>
+</body>
+</html>
