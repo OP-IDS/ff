@@ -447,12 +447,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" id="productGrid"></div>
     </section>
 
-    <!-- All Products -->
-    <section class="text-center mt-20 px-4">
-      <h2 class="section-title">Complete Collection</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" id="allIdsSection"></div>
-    </section>
-
+  
     <!-- Footer -->
     <footer class="text-center mt-20 py-12 glass-effect">
       <div class="max-w-4xl mx-auto px-4">
@@ -499,15 +494,15 @@
 
   <script>
     const products = [
-       { id: 1, price: 2200, image: "cover1.jpg", gallery: ["cover1.2.jpg", "cover1.3.jpg", "cover1.4.jpg", "cover1.5.jpg", "cover1.6.jpg", "cover1.7.jpg"], details: { level: 70, kd: "3.8", gunSkins: "70+" } },
-      { id: 2, price: 800, image: "cover2.jpg", gallery: ["cover2.2.jpg", "cover2.2.jpg", "cover2.3.jpg", "cover2.4.jpg", "cover2.5.jpg", "cover2.6.jpg"], details: { level: 70, kd: "4.2", gunSkins: "70+" } },
-      { id: 3, price: 1200, image: "cover3.jpg", gallery: ["cover3.2.jpg", "cover3.2.jpg", "cover3.3.jpg", "cover3.4.jpg", "cover3.5.jpg", "cover3.6.jpg"], details: { level: 70, kd: "4.7", gunSkins: "80+" } },
-      { id: 4, price: 1000, image: "cover4.jpg", gallery: ["cover4.2.jpg", "cover4.2.jpg", "cover4.3.jpg", "cover4.4.jpg", "cover4.5.jpg", "cover4.6.jpg"], details: { level: 72, kd: "5.1", gunSkins: "80+evo" } },
-      { id: 5, price: 1500, image: "cover5.jpg", gallery: ["cover5.2.jpg", "cover5.2.jpg", "cover5.3.jpg", "cover5.4.jpg", "cover5.5.jpg", "cover5.6.jpg"], details: { level: 73, kd: "5.5", gunSkins: "90+veo" } },
-      { id: 6, price: 1500, image: "cover6.jpg", gallery: ["cover6.2.jpg", "cover6.2.jpg", "cover6.3.jpg", "cover6.4.jpg", "cover6.5.jpg", "cover6.6.jpg"], details: { level: 80, kd: "5.9", gunSkins: "100+evo" } },
-      { id: 7, price: 1800, image: "cover7.jpg", gallery: ["cover7.2.jpg", "cover7.2.jpg", "cover7.3.jpg", "cover7.4.jpg", "cover7.5.jpg", "cover7.6.jpg"], details: { level: 80, kd: "6.2", gunSkins: "16+" } },
-      { id: 8, price: 700, image: "cover8.jpg", gallery: ["cover8.2.jpg", "cover8.2.jpg", "cover8.3.jpg", "cover8.4.jpg", "cover8.5.jpg", "cover8.6.jpg"], details: { level: 71, kd: "6.6", gunSkins: "18+" } },
-      { id: 9, price: 2100, image: "cover9.jpg", gallery: ["cover9.2.jpg", "cover9.2.jpg", "cover9.3.jpg", "cover9.4.jpg", "cover9.5.jpg", "cover9.6.jpg"], details: { level: 76, kd: "7.0", gunSkins: "20+" } },
+       { id: 1, price: 2000, image: "cover1.jpg", gallery: ["cover1.2.jpg", "cover1.3.jpg", "cover1.4.jpg", "cover1.5.jpg", "cover1.6.jpg", "cover1.7.jpg"], details: { level: 70, kd: "3.8", gunSkins: "70+" } },
+       { id: 2, price: 700, image: "cover8.jpg", gallery: ["cover8.jpg", "cover8.2.jpg", "cover8.3.jpg", "cover8.4.jpg", "cover8.5.jpg", "cover8.6.jpg"], details: { level: 71, kd: "6.6", gunSkins: "18+" } },
+      { id: 3, price: 800, image: "cover2.jpg", gallery: ["cover2.jpg", "cover2.2.jpg", "cover2.3.jpg", "cover2.4.jpg", "cover2.5.jpg", "cover2.6.jpg"], details: { level: 70, kd: "4.2", gunSkins: "70+" } },
+      { id: 4, price: 1200, image: "cover3.jpg", gallery: ["cover3.jpg", "cover3.2.jpg", "cover3.3.jpg", "cover3.4.jpg", "cover3.5.jpg", "cover3.6.jpg"], details: { level: 70, kd: "4.7", gunSkins: "80+" } },
+      { id: 5, price: 1000, image: "cover4.jpg", gallery: ["cover4.jpg", "cover4.2.jpg", "cover4.3.jpg", "cover4.4.jpg", "cover4.5.jpg", "cover4.6.jpg"], details: { level: 72, kd: "5.1", gunSkins: "80+evo" } },
+      { id: 6, price: 1500, image: "cover5.jpg", gallery: ["cover5.jpg", "cover5.2.jpg", "cover5.3.jpg", "cover5.4.jpg", "cover5.5.jpg", "cover5.6.jpg"], details: { level: 73, kd: "5.5", gunSkins: "90+veo" } },
+      { id: 7, price: 1500, image: "cover6.jpg", gallery: ["cover6.jpg", "cover6.2.jpg", "cover6.3.jpg", "cover6.4.jpg", "cover6.5.jpg", "cover6.6.jpg"], details: { level: 80, kd: "5.9", gunSkins: "100+evo" } },
+      { id: 8, price: 1800, image: "cover7.jpg", gallery: ["cover7.jpg", "cover7.2.jpg", "cover7.3.jpg", "cover7.4.jpg", "cover7.5.jpg", "cover7.6.jpg"], details: { level: 80, kd: "6.2", gunSkins: "16+" } },
+      { id: 9, price: 2000, image: "cover9.jpg", gallery: ["cover9.jpg", "cover9.2.jpg", "cover9.3.jpg", "cover9.4.jpg", "cover9.5.jpg", "cover9.6.jpg"], details: { level: 76, kd: "7.0", gunSkins: "20+" } },
     ];
 
     const grid = document.getElementById("productGrid");
@@ -517,7 +512,7 @@
     let currentImages = [];
     let currentImageIndex = 0;
 
-    function renderProducts(maxPrice = 9999) {
+    function renderProducts(maxPrice = 1000) {
       grid.innerHTML = "";
       const filtered = products.filter(p => {
         if (maxPrice === 1000) return p.price <= 1000;
@@ -800,3 +795,4 @@
 </body>
 
 </html>
+
