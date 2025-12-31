@@ -17,41 +17,45 @@
         /* --- Navigation --- */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
         .logo { font-family: 'Syncopate', sans-serif; font-size: 20px; font-weight: bold; color: var(--dark); text-decoration: none; }
+        .search-bar { flex: 0.5; margin: 0 20px; }
+        .search-bar input { width: 100%; padding: 10px 25px; border-radius: 30px; border: 1px solid #ddd; outline: none; transition: 0.3s; }
         .cart-btn { position: relative; cursor: pointer; font-size: 20px; }
         #cart-count { position: absolute; top: -10px; right: -12px; background: var(--primary); color: white; font-size: 11px; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
 
-        /* --- Restore: 3 Slides Hero --- */
+        /* --- 3 Slides Hero Section --- */
         .hero-slider { position: relative; height: 70vh; width: 100%; overflow: hidden; background: var(--dark); }
         .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-size: cover; background-position: center; }
         .slide.active { opacity: 1; z-index: 10; }
         .slide::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1; }
         .slide h1 { font-family: 'Syncopate'; font-size: clamp(24px, 5vw, 50px); letter-spacing: 5px; margin-bottom: 15px; }
 
-        /* --- Product Grid --- */
+        /* --- Grid & Product Cards --- */
         .container { width: 90%; margin: 50px auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
         .product-card { background: var(--white); border-radius: 15px; overflow: hidden; transition: 0.4s ease; padding: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #eee; }
         .product-card:hover { transform: translateY(-8px); border-color: var(--primary); }
-        .img-box { width: 100%; height: 220px; overflow: hidden; border-radius: 10px; }
+        .img-box { width: 100%; height: 250px; overflow: hidden; border-radius: 10px; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- Product Gallery Modal --- */
+        /* --- Modal Gallery (6 Photos) --- */
         #detail-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; display: none; justify-content: center; align-items: center; overflow-y: auto; }
-        .detail-content { background: white; width: 90%; max-width: 850px; padding: 25px; border-radius: 20px; position: relative; margin: 20px auto; }
-        .close-detail { position: absolute; top: 15px; right: 20px; font-size: 35px; cursor: pointer; color: #333; }
+        .detail-content { background: white; width: 95%; max-width: 850px; padding: 20px; border-radius: 20px; position: relative; margin: 20px auto; }
+        .close-detail { position: absolute; top: 10px; right: 20px; font-size: 35px; cursor: pointer; }
         .main-view-container { width: 100%; height: 350px; background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 15px; }
         .main-view-img { width: 100%; height: 100%; object-fit: contain; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin: 20px 0; }
-        .gallery-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
-        .gallery-grid img:hover { border-color: var(--primary); transform: scale(1.0); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        @media(min-width: 600px) { .gallery-grid { grid-template-columns: repeat(6, 1fr); } }
+        .gallery-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+        .gallery-grid img:hover { border-color: var(--primary); }
 
-        /* --- UI Elements --- */
-        .btn-buy { width: 100%; padding: 15px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .btn-buy:hover { background: #1e8449; }
-        #cart-sidebar { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; z-index: 2000; transition: 0.5s; padding: 25px; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
+        /* --- Buttons & Sidebar --- */
+        .add-to-cart { width: 100%; padding: 12px; background: var(--dark); color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: 600; }
+        #cart-sidebar { position: fixed; right: -100%; top: 0; width: 320px; height: 100%; background: white; z-index: 2000; transition: 0.5s; padding: 25px; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
         #cart-sidebar.active { right: 0; }
         #checkout-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; display: none; justify-content: center; align-items: center; }
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 30px; border-radius: 30px; display: none; z-index: 6000; }
+        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
+        .modal-content input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; }
+        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 30px; display: none; z-index: 6000; }
     </style>
 </head>
 <body>
@@ -60,80 +64,70 @@
 
     <nav>
         <div class="logo">FF OP HOUSE</div>
-        <div class="cart-btn" onclick="toggleCart()">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span id="cart-count">0</span>
-        </div>
+        <div class="search-bar"><input type="text" id="searchInp" placeholder="Search IDs..." onkeyup="search()"></div>
+        <div class="cart-btn" onclick="toggleCart()"><i class="fa-solid fa-bag-shopping"></i><span id="cart-count">0</span></div>
     </nav>
 
-    <!-- 3 Slides Hero Section RESTORED -->
+    <!-- 3 Dynamic Hero Slides -->
     <header class="hero-slider">
         <div class="slide active" style="background-image: url('bg1.jpg');">
-            <h1 data-aos="fade-up">PREMIUM ID'S</h1>
-            <p>Verified accounts with rare bundles.</p>
-        </div>
-        <div class="slide" style="background-image: url('bg3.jpg');">
-            <h1>TRUSTED SELLER</h1>                                                                                                                                                                                                                                                     
-            <p>3 years of selling experience.</p>
+            <h1>PREMIUM FF ACCOUNTS</h1>
+            <p>Verified sellers with rare items.</p>
         </div>
         <div class="slide" style="background-image: url('bg2.jpg');">
             <h1>SAFE & SECURE</h1>
-            <p>100% money back guarantee.</p>
+            <p>100% money-back guarantee.</p>
+        </div>
+        <div class="slide" style="background-image: url('bg3.jpg');">
+            <h1>BUDGET FRIENDLY</h1>
+            <p>Best IDs at lowest prices.</p>
         </div>
     </header>
 
     <div class="container">
-        <h2 style="margin-bottom: 30px; font-family: 'Syncopate'">Featured Accounts</h2>
+        <h2 style="margin-bottom: 30px; font-family: 'Syncopate'">Featured Collection</h2>
         <div class="grid" id="productGrid"></div>
     </div>
 
-    <!-- Product Detail & 6-Image Gallery Modal -->
+    <!-- Gallery Detail Modal -->
     <div id="detail-modal">
         <div class="detail-content">
             <span class="close-detail" onclick="closeDetails()">&times;</span>
-            <div class="main-view-container">
-                <img id="mainView" class="main-view-img" src="">
-            </div>
-            <h2 id="detailName">Account Name</h2>
-            <p id="detailPrice" style="color:var(--primary); font-size: 24px; font-weight: bold; margin: 10px 0;"></p>
-            
-            <p style="font-size: 13px; color: #666;">View Gallery (6 Images):</p>
-            <div class="gallery-grid" id="galleryBox">
-                <!-- 6 Gallery Images go here -->
-            </div>
-
-            <button class="btn-buy" id="detailAddBtn">ADD TO BAG & CHECKOUT</button>
+            <div class="main-view-container"><img id="mainView" class="main-view-img" src=""></div>
+            <h2 id="detailName">ID Name</h2>
+            <p id="detailPrice" style="color:var(--primary); font-size: 22px; font-weight: bold;"></p>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">Click on images to zoom:</p>
+            <div class="gallery-grid" id="galleryBox"></div>
+            <button class="add-to-cart" id="detailAddBtn" style="background:var(--success); padding:15px">ADD TO BAG & BUY NOW</button>
         </div>
     </div>
 
     <!-- Sidebar Cart -->
     <div id="cart-sidebar">
-        <h3>Shopping Bag</h3>
-        <hr style="margin: 15px 0;">
-        <div id="cartItems" style="flex-grow:1; overflow-y:auto"></div>
-        <div style="padding-top:20px; border-top:1px solid #ddd">
+        <h3>Your Shopping Bag</h3>
+        <div id="cartItems" style="flex-grow:1; overflow-y:auto; margin-top:15px"></div>
+        <div style="margin-top:auto; padding-top:20px; border-top:1px solid #ddd">
             <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:20px; margin-bottom:15px">
-                <span>Total:</span>
-                <span>₹<span id="totalPrice">0</span></span>
+                <span>Total:</span><span>₹<span id="totalPrice">0</span></span>
             </div>
-            <button class="btn-buy" onclick="openCheckout()">PROCEED TO BUY</button>
-            <button class="btn-buy" style="background:transparent; color:#888" onclick="toggleCart()">Close</button>
+            <button class="add-to-cart" style="background:var(--success)" onclick="openCheckout()">PROCEED TO BUY</button>
+            <button class="add-to-cart" style="background:transparent; color:#888" onclick="toggleCart()">Close</button>
         </div>
     </div>
 
     <!-- Checkout Modal -->
     <div id="checkout-modal">
-        <div class="modal-content" style="background:white; padding:30px; border-radius:20px; width:90%; max-width:400px; text-align:center;">
-            <h2>Complete Payment</h2>
-            <input type="text" id="cName" placeholder="Full Name" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
-            <input type="text" id="cContact" placeholder="WhatsApp Number" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
-            <div style="background:#fff9e6; padding:15px; border-radius:15px; margin:15px 0; border:2px dashed #f1c40f;">
-                <p>Payable: <b>₹<span id="payAmount"></span></b></p>
-                <img id="qrImg" src="" style="width:180px; height:180px; margin:10px 0;">
-                <p style="font-size:10px;">Scan QR to Pay via UPI</p>
+        <div class="modal-content">
+            <h3>Checkout Details</h3>
+            <input type="text" id="cName" placeholder="Full Name">
+            <input type="text" id="cContact" placeholder="WhatsApp Number">
+            <div style="background:#fff9e6; padding:15px; border-radius:15px; margin:10px 0; border:2px dashed #f1c40f;">
+                <p>Total Amount: <b>₹<span id="payAmount"></span></b></p>
+                <img id="qrImg" src="" style="width:160px; height:160px; margin:10px 0;">
+                <p style="font-size:10px;">Scan QR to Pay via Any UPI App</p>
             </div>
-            <button class="btn-buy" onclick="finishOrder()">I HAVE PAID - CONFIRM</button>
-            <button class="btn-buy" style="background:none; color:black" onclick="closeCheckout()">Cancel</button>
+            <button id="confirmBtn" class="add-to-cart" style="background:var(--success)" onclick="validateOrder()">CONFIRM ORDER</button>
+            <button class="add-to-cart" style="background:none; color:black" onclick="closeCheckout()">Go Back</button>
         </div>
     </div>
 
@@ -141,60 +135,112 @@
     <script>
         AOS.init();
 
-        // Hero Slider Logic (3 Slides)
+        // Slider Logic
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
-        function nextSlide() {
+        setInterval(() => {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
-        }
-        setInterval(nextSlide, 4000); // 4 seconds interval
+        }, 4000);
 
-        // Product Data (10 Accounts with 6 Gallery Images each)
-        const products = [];
-        for(let i=1; i<=10; i++) {
-            products.push({
-                id: i,
-                name: `Elite ID - Level ${60 + i} Rare`,
-                price: 1500 + (i * 450),
-                mainImg: `https://picsum.photos/600/400?random=${i}`,
+        // --- YAHAN APNI PHOTOS ADD KAREIN ---
+        const products = [
+            {
+                id: 1,
+                name: "PRIME - 8",
+                price: 1000,
+                mainImg: "cover8.jpg",
                 gallery: [
-                    `https://picsum.photos/400/400?random=${i}1`,
-                    `https://picsum.photos/400/400?random=${i}2`,
-                    `https://picsum.photos/400/400?random=${i}3`,
-                    `https://picsum.photos/400/400?random=${i}4`,
-                    `https://picsum.photos/400/400?random=${i}5`,
-                    `https://picsum.photos/400/400?random=${i}6`
+                    "cover8.2.jpg", "cover8.3.jpg", "cover8.4.jpg", "cover8.5.jpg", "cover8.6.jpg", "cover8.7.jpg"
                 ]
-            });
-        }
+            },
+            {
+                id: 2,
+                name: "PRIME - 1",
+                price: 1200,
+                mainImg: "cover6.jpg",
+                gallery: [
+                     "cover6.2.jpg", "cover6.3.jpg", "cover6.4.jpg", "cover6.5.jpg", "cover6.6.jpg", "cover6.7.jpg"
+                ]
+            },
+            
+            {
+                id: 3,
+                name: "PRIME - 8",
+                price: 2000,
+                mainImg: "cover7.jpg",
+                gallery: [ "cover7.2.jpg", "cover7.3.jpg", "cover7.4.jpg", "cover7.5.jpg", "cover7.6.jpg", "cover7.7.jpg"]
+            },
+            {
+                id: 4,
+                name: "PRIME - 4",
+                price: 1500,
+                mainImg: "cover4.jpg",
+                gallery: [ "cover4.2.jpg", "cover4.3.jpg", "cover4.4.jpg", "cover4.5.jpg", "cover4.6.jpg", "cover4.7.jpg"]
+            },
+            {
+                id: 5,
+                name: "PRIME - 6",
+                price: 1000,
+                mainImg: "cover2.jpg",
+                gallery: [ "cover2.2.jpg", "cover2.3.jpg", "cover2.4.jpg", "cover2.5.jpg", "cover2.6.jpg", "cover2.7.jpg"]
+            },
+            {
+                id: 6,
+                name: "PRIME - 8",
+                price: 1500,
+                mainImg: "cover5.jpg",
+                gallery: [ "cover5.2.jpg", "cover5.3.jpg", "cover5.4.jpg", "cover5.5.jpg", "cover5.6.jpg", "cover5.7.jpg"]
+            },
+            {
+                id: 7,
+                name: "PRIME - 8",
+                price: 1500,
+                mainImg: "cover3.jpg",
+                gallery: [ "cover3.2.jpg", "cover3.3.jpg", "cover3.4.jpg", "cover3.5.jpg", "cover3.6.jpg", "cover3.7.jpg"]
+            },
+            {
+                id: 8,
+                name: "PRIME - 8",
+                price: 2000,
+                mainImg: "cover1.jpg",
+                gallery: [ "cover1.2.jpg", "cover1.3.jpg", "cover1.4.jpg", "cover1.5.jpg", "cover1.6.jpg", "cover1.7.jpg"]
+            },
+            {
+                id: 9,
+                name: "PRIME - 7",
+                price: 2000,
+                mainImg: "cover9.jpg",
+                gallery: [ "cover9.2.jpg", "cover19.3.jpg", "cover9.4.jpg", "cover9.5.jpg", "cover9.6.jpg", "cover9.7.jpg"]
+            },
+                  ];
 
         let cart = [];
+        let hasPaidWarning = false;
 
-        // Render Product Grid
-        function renderGrid() {
-            document.getElementById('productGrid').innerHTML = products.map(p => `
+        function render(items) {
+            document.getElementById('productGrid').innerHTML = items.map(p => `
                 <div class="product-card" onclick="openDetails(${p.id})" data-aos="fade-up">
-                    <div class="img-box"><img src="${p.mainImg}"></div>
+                    <div class="img-box"><img src="${p.mainImg}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'"></div>
                     <div style="text-align:center; padding-top:15px">
                         <h4>${p.name}</h4>
                         <p style="color:var(--primary); font-weight:bold; font-size:18px">₹${p.price}</p>
-                        <p style="font-size:10px; color:#888">Click for details & gallery</p>
+                        <p style="font-size:10px; color:#999">Click to view 6 photos</p>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Gallery Modal Functions
         function openDetails(id) {
             const p = products.find(x => x.id === id);
             document.getElementById('mainView').src = p.mainImg;
             document.getElementById('detailName').innerText = p.name;
             document.getElementById('detailPrice').innerText = "₹" + p.price;
             
+            // 6 Photos Gallery logic
             document.getElementById('galleryBox').innerHTML = p.gallery.map(img => `
-                <img src="${img}" onclick="document.getElementById('mainView').src='${img}'">
+                <img src="${img}" onerror="this.src='https://via.placeholder.com/100?text=No+Photo'" onclick="document.getElementById('mainView').src='${img}'">
             `).join('');
 
             document.getElementById('detailAddBtn').onclick = () => {
@@ -202,20 +248,16 @@
                 closeDetails();
                 toggleCart();
             };
-
             document.getElementById('detail-modal').style.display = 'flex';
         }
 
         function closeDetails() { document.getElementById('detail-modal').style.display = 'none'; }
 
-        // Cart Logic
         function addToCart(id) {
-            const p = products.find(x => x.id === id);
-            cart.push(p);
+            cart.push(products.find(p => p.id === id));
             updateCart();
-            const t = document.getElementById('toast');
-            t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 2000);
+            document.getElementById('toast').style.display = 'block';
+            setTimeout(() => document.getElementById('toast').style.display = 'none', 2000);
         }
 
         function updateCart() {
@@ -223,36 +265,45 @@
             const total = cart.reduce((s, i) => s + i.price, 0);
             document.getElementById('totalPrice').innerText = total;
             document.getElementById('cartItems').innerHTML = cart.map((item, idx) => `
-                <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
-                    <img src="${item.mainImg}" style="width:50px; height:50px; object-fit:cover; border-radius:5px">
-                    <div style="flex-grow:1"><p style="font-size:13px">${item.name}</p><b>₹${item.price}</b></div>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px">
+                    <img src="${item.mainImg}" style="width:40px; height:40px; border-radius:5px">
+                    <div style="flex-grow:1"><p style="font-size:12px">${item.name}</p><b>₹${item.price}</b></div>
                     <i class="fa-solid fa-trash" style="color:red; cursor:pointer" onclick="remove(${idx})"></i>
                 </div>
             `).join('');
         }
 
-        function remove(idx) { cart.splice(idx, 1); updateCart(); }
+        function remove(idx) { cart.splice(idx,1); updateCart(); }
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
-        // Checkout logic
+        function search() {
+            const v = document.getElementById('searchInp').value.toLowerCase();
+            render(products.filter(p => p.name.toLowerCase().includes(v)));
+        }
+
         function openCheckout() {
-            if(cart.length === 0) return alert("Bag is empty!");
+            if(cart.length === 0) return alert("Cart is empty!");
             const total = document.getElementById('totalPrice').innerText;
             document.getElementById('payAmount').innerText = total;
-            document.getElementById('qrImg').src = 'qr.jpg'; 
+            document.getElementById('qrImg').src = `qr.jpg`;
             document.getElementById('checkout-modal').style.display = 'flex';
+            hasPaidWarning = false;
         }
 
         function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
 
-        function finishOrder() {
-            const n = document.getElementById('cName').value;
-            if(!n) return alert("Please enter your name!");
-            alert("Order Confirmed! Contacting you on WhatsApp for ID Login details.");
+        function validateOrder() {
+            if(!document.getElementById('cName').value) return alert("Enter Name");
+            if(!hasPaidWarning) {
+                alert("Please pay the amount first and then confirm.");
+                hasPaidWarning = true;
+                return;
+            }
+            alert("Order Confirmed! Contacting you on WhatsApp.");
             cart = []; updateCart(); closeCheckout();
         }
 
-        renderGrid();
+        render(products);
     </script>
 </body>
 </html>
