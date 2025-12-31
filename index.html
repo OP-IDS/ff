@@ -1,800 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Premium Free Fire ID Store</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF OP HOUSE - Official Store</title>
     
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    :root {
-      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
-      --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-      --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    }
+    <style>
+        :root { --primary: #ff4757; --dark: #1a1a1a; --bg: #f8f9fa; --white: #ffffff; --success: #27ae60; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg); color: var(--dark); overflow-x: hidden; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0a0a0a;
-      color: white;
-      overflow-x: hidden;
-    }
+        /* --- Navigation --- */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        .logo { font-family: 'Syncopate', sans-serif; font-size: 20px; font-weight: bold; color: var(--dark); text-decoration: none; }
+        .cart-btn { position: relative; cursor: pointer; font-size: 20px; }
+        #cart-count { position: absolute; top: -10px; right: -12px; background: var(--primary); color: white; font-size: 11px; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
 
-    .bg-animated {
-      background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #0f0f0f, #2d2d2d);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+        /* --- Restore: 3 Slides Hero --- */
+        .hero-slider { position: relative; height: 70vh; width: 100%; overflow: hidden; background: var(--dark); }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-size: cover; background-position: center; }
+        .slide.active { opacity: 1; z-index: 10; }
+        .slide::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1; }
+        .slide h1 { font-family: 'Syncopate'; font-size: clamp(24px, 5vw, 50px); letter-spacing: 5px; margin-bottom: 15px; }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        /* --- Product Grid --- */
+        .container { width: 90%; margin: 50px auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .product-card { background: var(--white); border-radius: 15px; overflow: hidden; transition: 0.4s ease; padding: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #eee; }
+        .product-card:hover { transform: translateY(-8px); border-color: var(--primary); }
+        .img-box { width: 100%; height: 220px; overflow: hidden; border-radius: 10px; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
+        /* --- Product Gallery Modal --- */
+        #detail-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; display: none; justify-content: center; align-items: center; overflow-y: auto; }
+        .detail-content { background: white; width: 90%; max-width: 850px; padding: 25px; border-radius: 20px; position: relative; margin: 20px auto; }
+        .close-detail { position: absolute; top: 15px; right: 20px; font-size: 35px; cursor: pointer; color: #333; }
+        .main-view-container { width: 100%; height: 350px; background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 15px; }
+        .main-view-img { width: 100%; height: 100%; object-fit: contain; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin: 20px 0; }
+        .gallery-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .gallery-grid img:hover { border-color: var(--primary); transform: scale(1.0); }
 
-    .neon-glow {
-      box-shadow: 0 0 20px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.3);
-    }
-
-    .premium-card {
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .premium-card::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
-      border-radius: 22px;
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .premium-card:hover::before {
-      opacity: 1;
-    }
-
-    .premium-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .floating-elements {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .floating-elements::before,
-    .floating-elements::after {
-      content: '';
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .floating-elements::before {
-      top: 20%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .floating-elements::after {
-      bottom: 20%;
-      right: 10%;
-      animation-delay: 3s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .premium-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      padding: 12px 32px;
-      border-radius: 50px;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .premium-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .premium-btn:hover::before {
-      left: 100%;
-    }
-
-    .premium-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-    }
-
-    .modal-backdrop {
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-    }
-
-    .modal-content {
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-      backdrop-filter: blur(30px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 25px;
-      animation: modalSlideIn 0.3s ease-out;
-    }
-
-    @keyframes modalSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .price-tag {
-      background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
-      color: #000;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 18px;
-      text-shadow: none;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-    }
-
-    .level-badge {
-      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .kd-badge {
-      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .skins-badge {
-      background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .section-title {
-      font-family: 'Orbitron', monospace;
-      font-size: 3rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .hero-title {
-      font-family: 'Orbitron', monospace;
-      font-size: 4rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-      text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-    }
-
-    .image-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .gallery-img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .gallery-img:hover {
-      transform: scale(1.05);
-      border-color: rgba(102, 126, 234, 0.5);
-      cursor: pointer;
-    }
-
-    .image-viewer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .image-viewer.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .image-viewer-content {
-      position: relative;
-      max-width: 90%;
-      max-height: 90%;
-      animation: imageZoomIn 0.3s ease-out;
-    }
-
-    .image-viewer-content img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .image-viewer-close {
-      position: absolute;
-      top: -40px;
-      right: -10px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      font-size: 24px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(10px);
-    }
-
-    .image-viewer-close:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.1);
-    }
-
-    .image-viewer-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      font-size: 24px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(10px);
-    }
-
-    .image-viewer-nav:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .image-viewer-prev {
-      left: 20px;
-    }
-
-    .image-viewer-next {
-      right: 20px;
-    }
-
-    .image-viewer-counter {
-      position: absolute;
-      bottom: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      backdrop-filter: blur(10px);
-    }
-
-    @keyframes imageZoomIn {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .filter-active {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
-      transform: scale(1.05);
-      box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
-    }
-
-    @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      .section-title {
-        font-size: 2rem;
-      }
-    }
-  </style>
-
+        /* --- UI Elements --- */
+        .btn-buy { width: 100%; padding: 15px; background: var(--success); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .btn-buy:hover { background: #1e8449; }
+        #cart-sidebar { position: fixed; right: -100%; top: 0; width: 350px; height: 100%; background: white; z-index: 2000; transition: 0.5s; padding: 25px; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
+        #cart-sidebar.active { right: 0; }
+        #checkout-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; display: none; justify-content: center; align-items: center; }
+        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 30px; border-radius: 30px; display: none; z-index: 6000; }
+    </style>
 </head>
 <body>
-  <div class="bg-animated"></div>
-  <div class="floating-elements"></div>
-  
-  <div class="relative z-10">
-    <!-- Hero Section -->
-    <header class="text-center py-16 relative">
-      <div class="glass-effect mx-auto max-w-4xl rounded-3xl p-8 neon-glow">
-        <h1 class="hero-title mb-4">🔥 FF OP HOUSE 🔥</h1> 
-        <p class="text-xl text-gray-300 font-light">Premium Gaming Accounts • Legendary Collections • Instant Delivery</p>
-        <div class="mt-8 flex justify-center space-x-4">
-          <div class="text-center">
-            <div class="text-2xl font-bold text-yellow-400">10k+</div>
-            <div class="text-sm text-gray-400">Happy Customers</div>
-          </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-blue-400">24/7</div>
-            <div class="text-sm text-gray-400">Support</div>
-          </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-green-400">100%</div>
-            <div class="text-sm text-gray-400">Refund Available</div>
-          </div>
+
+    <div id="toast">Added to Bag! 👜</div>
+
+    <nav>
+        <div class="logo">FF OP HOUSE</div>
+        <div class="cart-btn" onclick="toggleCart()">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count">0</span>
         </div>
-      </div>
+    </nav>
+
+    <!-- 3 Slides Hero Section RESTORED -->
+    <header class="hero-slider">
+        <div class="slide active" style="background-image: url('bg1.jpg');">
+            <h1 data-aos="fade-up">PREMIUM ID'S</h1>
+            <p>Verified accounts with rare bundles.</p>
+        </div>
+        <div class="slide" style="background-image: url('bg3.jpg');">
+            <h1>TRUSTED SELLER</h1>                                                                                                                                                                                                                                                     
+            <p>3 years of selling experience.</p>
+        </div>
+        <div class="slide" style="background-image: url('bg2.jpg');">
+            <h1>SAFE & SECURE</h1>
+            <p>100% money back guarantee.</p>
+        </div>
     </header>
 
-    <!-- Filter Section -->
-    <section class="text-center mt-12 px-4">
-      <h2 class="section-title">Choose Your Budget</h2>
-      <div class="flex justify-center space-x-4 flex-wrap gap-4">
-        <button class="filter-btn premium-btn" data-range="1000">Under ₹1000</button>
-        <button class="filter-btn premium-btn" data-range="1900">₹1000 - ₹2000</button>
-        <button class="filter-btn premium-btn" data-range="9999">Above ₹2000</button>
-      </div>
-    </section>
-
-    <!-- Filtered Products -->
-    <section class="text-center mt-16 px-4">
-      <h2 class="text-2xl font-bold mb-8 text-gray-300">Filtered Collection</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" id="productGrid"></div>
-    </section>
-
-  
-    <!-- Footer -->
-    <footer class="text-center mt-20 py-12 glass-effect">
-      <div class="max-w-4xl mx-auto px-4">
-        <h3 class="text-2xl font-bold mb-4">Premium Gaming Experience</h3>
-        <p class="text-gray-400 mb-6">Join thousands of satisfied customers who trust our premium Free Fire accounts</p>
-        <div class="flex justify-center space-x-6 text-sm text-gray-500">
-          <span>🛡️ Secure Transactions</span>
-          <span>⚡ Instant Delivery</span>
-          <span>🎮 Premium Support</span>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <!-- Image Viewer -->
-  <div id="imageViewer" class="image-viewer">
-    <div class="image-viewer-content">
-      <button class="image-viewer-close" onclick="closeImageViewer()">&times;</button>
-      <button class="image-viewer-nav image-viewer-prev" onclick="prevImage()">‹</button>
-      <button class="image-viewer-nav image-viewer-next" onclick="nextImage()">›</button>
-      <img id="viewerImage" src="" alt="Gallery Image">
-      <div class="image-viewer-counter">
-        <span id="imageCounter">1 / 3</span>
-      </div>
+    <div class="container">
+        <h2 style="margin-bottom: 30px; font-family: 'Syncopate'">Featured Accounts</h2>
+        <div class="grid" id="productGrid"></div>
     </div>
-  </div>
 
-  <!-- Modal -->
-  <div id="modal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
-    <div class="modal-content text-white rounded-3xl p-8 max-w-2xl w-full relative">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-      
-      <h2 class="text-3xl font-bold mb-2 text-center" id="modalTitle"></h2>
-      <p id="modalPrice" class="mb-6 text-center text-2xl"></p>
-      
-      <div class="image-gallery" id="modalImages"></div>
-      
-      <div class="flex justify-center space-x-4 mt-8">
-        <button onclick="closeModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-full transition-all">Cancel</button>
-        <a id="buyLink" href="#" target="_blank" class="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 rounded-full transition-all font-semibold">Purchase Now</a>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const products = [
-       { id: 1, price: 2200, image: "cover1.jpg", gallery: ["cover1.2.jpg", "cover1.3.jpg", "cover1.4.jpg", "cover1.5.jpg", "cover1.6.jpg", "cover1.7.jpg"], details: { level: 70, kd: "3.8", gunSkins: "70+" } },
-       { id: 2, price: 700, image: "cover8.jpg", gallery: ["cover8.jpg", "cover8.2.jpg", "cover8.3.jpg", "cover8.4.jpg", "cover8.5.jpg", "cover8.6.jpg"], details: { level: 71, kd: "6.6", gunSkins: "18+" } },
-      { id: 3, price: 800, image: "cover2.jpg", gallery: ["cover2.jpg", "cover2.2.jpg", "cover2.3.jpg", "cover2.4.jpg", "cover2.5.jpg", "cover2.6.jpg"], details: { level: 70, kd: "4.2", gunSkins: "70+" } },
-      { id: 4, price: 1200, image: "cover3.jpg", gallery: ["cover3.jpg", "cover3.2.jpg", "cover3.3.jpg", "cover3.4.jpg", "cover3.5.jpg", "cover3.6.jpg"], details: { level: 70, kd: "4.7", gunSkins: "80+" } },
-      { id: 5, price: 1000, image: "cover4.jpg", gallery: ["cover4.jpg", "cover4.2.jpg", "cover4.3.jpg", "cover4.4.jpg", "cover4.5.jpg", "cover4.6.jpg"], details: { level: 72, kd: "5.1", gunSkins: "80+evo" } },
-      { id: 6, price: 1500, image: "cover5.jpg", gallery: ["cover5.jpg", "cover5.2.jpg", "cover5.3.jpg", "cover5.4.jpg", "cover5.5.jpg", "cover5.6.jpg"], details: { level: 73, kd: "5.5", gunSkins: "90+veo" } },
-      { id: 7, price: 1500, image: "cover6.jpg", gallery: ["cover6.jpg", "cover6.2.jpg", "cover6.3.jpg", "cover6.4.jpg", "cover6.5.jpg", "cover6.6.jpg"], details: { level: 80, kd: "5.9", gunSkins: "100+evo" } },
-      { id: 8, price: 1800, image: "cover7.jpg", gallery: ["cover7.jpg", "cover7.2.jpg", "cover7.3.jpg", "cover7.4.jpg", "cover7.5.jpg", "cover7.6.jpg"], details: { level: 80, kd: "6.2", gunSkins: "16+" } },
-      { id: 9, price: 2100, image: "cover9.jpg", gallery: ["cover9.jpg", "cover9.2.jpg", "cover9.3.jpg", "cover9.4.jpg", "cover9.5.jpg", "cover9.6.jpg"], details: { level: 76, kd: "7.0", gunSkins: "20+" } },
-    ];
-
-    const grid = document.getElementById("productGrid");
-    const allSection = document.getElementById("allIdsSection");
-    
-    // Image viewer variables
-    let currentImages = [];
-    let currentImageIndex = 0;
-
-    function renderProducts(maxPrice = 1000) {
-      grid.innerHTML = "";
-      const filtered = products.filter(p => {
-        if (maxPrice === 1000) return p.price <= 1000;
-        if (maxPrice === 1900) return p.price > 1000 && p.price <= 1900;
-        if (maxPrice === 9999) return p.price > 2000;
-      });
-      
-      filtered.forEach(product => renderCard(grid, product));
-    }
-
-    function renderCard(container, product) {
-      const cardHTML = `
-        <div class="premium-card p-6 h-auto cursor-pointer" onclick="buyID(${product.id}, ${product.price})">
-          <div class="relative mb-4">
-            <img src="${product.image}" alt="FF ID ${product.id}" class="w-full h-48 object-cover rounded-lg shadow-lg">
-            <div class="absolute top-2 right-2">
-              <span class="price-tag">₹${product.price}</span>
+    <!-- Product Detail & 6-Image Gallery Modal -->
+    <div id="detail-modal">
+        <div class="detail-content">
+            <span class="close-detail" onclick="closeDetails()">&times;</span>
+            <div class="main-view-container">
+                <img id="mainView" class="main-view-img" src="">
             </div>
-          </div>
-          
-          <div class="text-center">
-            <h3 class="text-xl font-bold mb-3 text-white">Elite ID #${product.id}</h3>
+            <h2 id="detailName">Account Name</h2>
+            <p id="detailPrice" style="color:var(--primary); font-size: 24px; font-weight: bold; margin: 10px 0;"></p>
             
-            <div class="flex flex-wrap justify-center gap-2 mb-4">
-              <span class="level-badge">Level ${product.details.level}</span>
-              <span class="kd-badge">K/D ${product.details.kd}</span>
-              <span class="skins-badge">${product.details.gunSkins} Skins</span>
+            <p style="font-size: 13px; color: #666;">View Gallery (6 Images):</p>
+            <div class="gallery-grid" id="galleryBox">
+                <!-- 6 Gallery Images go here -->
             </div>
-            
-            <button class="premium-btn w-full">View Details</button>
-          </div>
+
+            <button class="btn-buy" id="detailAddBtn">ADD TO BAG & CHECKOUT</button>
         </div>
-      `;
-      
-      container.innerHTML += cardHTML;
-    }
+    </div>
 
-    function renderAllIDs() {
-      allSection.innerHTML = "";
-      products.forEach(product => renderCard(allSection, product));
-    }
+    <!-- Sidebar Cart -->
+    <div id="cart-sidebar">
+        <h3>Shopping Bag</h3>
+        <hr style="margin: 15px 0;">
+        <div id="cartItems" style="flex-grow:1; overflow-y:auto"></div>
+        <div style="padding-top:20px; border-top:1px solid #ddd">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:20px; margin-bottom:15px">
+                <span>Total:</span>
+                <span>₹<span id="totalPrice">0</span></span>
+            </div>
+            <button class="btn-buy" onclick="openCheckout()">PROCEED TO BUY</button>
+            <button class="btn-buy" style="background:transparent; color:#888" onclick="toggleCart()">Close</button>
+        </div>
+    </div>
 
-    function buyID(id, price) {
-      const product = products.find(p => p.id === id);
-      const modal = document.getElementById("modal");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalPrice = document.getElementById("modalPrice");
-      const modalImages = document.getElementById("modalImages");
-      const buyLink = document.getElementById("buyLink");
-      document.getElementById("paymentAmount").innerText = `Amount: ₹${price}`;
+    <!-- Checkout Modal -->
+    <div id="checkout-modal">
+        <div class="modal-content" style="background:white; padding:30px; border-radius:20px; width:90%; max-width:400px; text-align:center;">
+            <h2>Complete Payment</h2>
+            <input type="text" id="cName" placeholder="Full Name" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
+            <input type="text" id="cContact" placeholder="WhatsApp Number" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ddd; border-radius:8px;">
+            <div style="background:#fff9e6; padding:15px; border-radius:15px; margin:15px 0; border:2px dashed #f1c40f;">
+                <p>Payable: <b>₹<span id="payAmount"></span></b></p>
+                <img id="qrImg" src="" style="width:180px; height:180px; margin:10px 0;">
+                <p style="font-size:10px;">Scan QR to Pay via UPI</p>
+            </div>
+            <button class="btn-buy" onclick="finishOrder()">I HAVE PAID - CONFIRM</button>
+            <button class="btn-buy" style="background:none; color:black" onclick="closeCheckout()">Cancel</button>
+        </div>
+    </div>
 
-      modalTitle.innerText = `Elite ID #${id}`;
-      modalPrice.innerHTML = `<span class="price-tag">₹${price}</span>`;
-      
-      modalImages.innerHTML = "";
-      product.gallery.forEach((url, index) => {
-        const img = document.createElement("img");
-        img.src = url;
-        img.alt = `FF ID ${id}`;
-        img.className = "gallery-img";
-        img.onclick = (e) => {
-          e.stopPropagation();
-          openImageViewer(product.gallery, index);
-        };
-        modalImages.appendChild(img);
-      });
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
 
-      buyLink.href = `text=I%20want%20to%20buy%20Free%20Fire%20ID%20${id}%20for%20₹${price}`;
-      modal.classList.remove("hidden");
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      document.getElementById("modal").classList.add("hidden");
-      document.body.style.overflow = 'auto';
-    }
-
-    // Image viewer functions
-    function openImageViewer(images, startIndex = 0) {
-      currentImages = images;
-      currentImageIndex = startIndex;
-      
-      const viewer = document.getElementById("imageViewer");
-      const viewerImage = document.getElementById("viewerImage");
-      const counter = document.getElementById("imageCounter");
-      
-      viewerImage.src = currentImages[currentImageIndex];
-      counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
-      
-      viewer.classList.add("active");
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeImageViewer() {
-      const viewer = document.getElementById("imageViewer");
-      viewer.classList.remove("active");
-      document.body.style.overflow = 'auto';
-    }
-
-    function nextImage() {
-      currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-      const viewerImage = document.getElementById("viewerImage");
-      const counter = document.getElementById("imageCounter");
-      
-      viewerImage.src = currentImages[currentImageIndex];
-      counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
-    }
-
-    function prevImage() {
-      currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-      const viewerImage = document.getElementById("viewerImage");
-      const counter = document.getElementById("imageCounter");
-      
-      viewerImage.src = currentImages[currentImageIndex];
-      counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
-    }
-
-    // Filter button functionality
-    document.querySelectorAll(".filter-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        // Remove active class from all buttons
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("filter-active"));
-        // Add active class to clicked button
-        btn.classList.add("filter-active");
-        
-        const range = parseInt(btn.getAttribute("data-range"));
-        renderProducts(range);
-      });
-    });
-
-    // Close modal when clicking outside
-    document.getElementById("modal").addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) {
-        closeModal();
-      }
-    });
-
-    // Close image viewer when clicking outside
-    document.getElementById("imageViewer").addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) {
-        closeImageViewer();
-      }
-    });
-
-    // Keyboard navigation for image viewer
-    document.addEventListener("keydown", (e) => {
-      const viewer = document.getElementById("imageViewer");
-      if (viewer.classList.contains("active")) {
-        switch(e.key) {
-          case "Escape":
-            closeImageViewer();
-            break;
-          case "ArrowLeft":
-            prevImage();
-            break;
-          case "ArrowRight":
-            nextImage();
-            break;
+        // Hero Slider Logic (3 Slides)
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
         }
-      }
-    });
+        setInterval(nextSlide, 4000); // 4 seconds interval
 
-    // Initialize
-    renderProducts();
-    renderAllIDs();
-  </script>
+        // Product Data (10 Accounts with 6 Gallery Images each)
+        const products = [];
+        for(let i=1; i<=10; i++) {
+            products.push({
+                id: i,
+                name: `Elite ID - Level ${60 + i} Rare`,
+                price: 1500 + (i * 450),
+                mainImg: `https://picsum.photos/600/400?random=${i}`,
+                gallery: [
+                    `https://picsum.photos/400/400?random=${i}1`,
+                    `https://picsum.photos/400/400?random=${i}2`,
+                    `https://picsum.photos/400/400?random=${i}3`,
+                    `https://picsum.photos/400/400?random=${i}4`,
+                    `https://picsum.photos/400/400?random=${i}5`,
+                    `https://picsum.photos/400/400?random=${i}6`
+                ]
+            });
+        }
 
+        let cart = [];
 
-  <!-- Payment Method Modal -->
-  <div id="paymentOptionsModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
-    <div class="modal-content text-white rounded-3xl p-8 max-w-md w-full relative">
-      <button onclick="closePaymentOptions()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-      <h2 class="text-2xl font-bold mb-6 text-center">Choose Payment Method</h2>
-      <div class="grid grid-cols-1 gap-4">
-        <button onclick="showQR('GPay')" class="premium-btn w-full">GPay</button>
-        <button onclick="showQR('PhonePe')" class="premium-btn w-full">PhonePe</button>
-        <button onclick="showQR('Paytm')" class="premium-btn w-full">Paytm</button>
-      </div>
-    </div>
-  </div>
+        // Render Product Grid
+        function renderGrid() {
+            document.getElementById('productGrid').innerHTML = products.map(p => `
+                <div class="product-card" onclick="openDetails(${p.id})" data-aos="fade-up">
+                    <div class="img-box"><img src="${p.mainImg}"></div>
+                    <div style="text-align:center; padding-top:15px">
+                        <h4>${p.name}</h4>
+                        <p style="color:var(--primary); font-weight:bold; font-size:18px">₹${p.price}</p>
+                        <p style="font-size:10px; color:#888">Click for details & gallery</p>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-  
-  <!-- QR Code Modal -->
-<div id="qrModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
-  <div class="bg-white p-6 rounded-xl shadow-lg w-80 relative">
-    <button onclick="closeQRModal()" class="absolute top-2 right-2 text-gray-600 hover:text-red-600 text-xl">&times;</button>
-    
-    <!-- Amount Line -->
-    <p id="paymentAmount" class="text-lg font-semibold text-red-600 mb-4">Amount: ₹0</p>
+        // Gallery Modal Functions
+        function openDetails(id) {
+            const p = products.find(x => x.id === id);
+            document.getElementById('mainView').src = p.mainImg;
+            document.getElementById('detailName').innerText = p.name;
+            document.getElementById('detailPrice').innerText = "₹" + p.price;
+            
+            document.getElementById('galleryBox').innerHTML = p.gallery.map(img => `
+                <img src="${img}" onclick="document.getElementById('mainView').src='${img}'">
+            `).join('');
 
-    <!-- QR Image -->
-    <img src="qr.jpg" alt="QR Code" class="w-48 h-48 mx-auto mb-4">
+            document.getElementById('detailAddBtn').onclick = () => {
+                addToCart(p.id);
+                closeDetails();
+                toggleCart();
+            };
 
-    <!-- Gift-style Button -->
-    <button onclick="alert('PLEASE PAY YOUR AMOUNT')" 
-      class="bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-lg shadow hover:from-red-500 hover:to-pink-500 transition flex items-center justify-center w-full">
-      🎁 Here Your ID and Password
-    </button>
+            document.getElementById('detail-modal').style.display = 'flex';
+        }
 
-    <p class="text-center text-gray-700 mt-3">Scan this QR code to complete your payment.</p>
-  </div>
-</div>
+        function closeDetails() { document.getElementById('detail-modal').style.display = 'none'; }
 
-  <div id="qrModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
-    <div class="modal-content text-white rounded-3xl p-8 max-w-md w-full relative text-center">
-      <button onclick="closeQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-      <h2 class="text-2xl font-bold mb-4" id="paymentMethodTitle"></h2>
-      <img src="qr.jpg" alt="QR Code" class="w-64 h-64 mx-auto rounded-xl shadow-xl border border-white/10">
-      <p id="paymentAmount" class="text-lg font-semibold text-white-000 mb-4">Amount: ₹0</p>
-      <p class="mt-4 text-gray-300">Scan the QR to pay via your chosen method</p>
-<div id="qrModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 hidden z-50">
-  <div class="bg-white p-6 rounded-2xl shadow-lg w-96 text-center relative">
-    <h3 class="text-xl font-bold mb-4">Scan QR to Pay</h3>
-    <img id="qrImage" src="https://i.ibb.co/8z1xw6t/qr.png" alt="QR Code" class="w-40 h-40 mx-auto mb-4 border-4 border-gray-200 rounded-lg">
-    
-    <!-- Show payment amount -->
-    <p id="paymentAmount" class="text-lg font-semibold text-red-600 mb-4">Amount: ₹0</p>
+        // Cart Logic
+        function addToCart(id) {
+            const p = products.find(x => x.id === id);
+            cart.push(p);
+            updateCart();
+            const t = document.getElementById('toast');
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2000);
+        }
 
-    <button onclick="closeQRModal()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Close</button>
-  </div>
-</div>
-    </div>
-  </div>
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const total = cart.reduce((s, i) => s + i.price, 0);
+            document.getElementById('totalPrice').innerText = total;
+            document.getElementById('cartItems').innerHTML = cart.map((item, idx) => `
+                <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
+                    <img src="${item.mainImg}" style="width:50px; height:50px; object-fit:cover; border-radius:5px">
+                    <div style="flex-grow:1"><p style="font-size:13px">${item.name}</p><b>₹${item.price}</b></div>
+                    <i class="fa-solid fa-trash" style="color:red; cursor:pointer" onclick="remove(${idx})"></i>
+                </div>
+            `).join('');
+        }
 
-  <script>
-    function buyID(id, price) {
-      const product = products.find(p => p.id === id);
-      const modal = document.getElementById("modal");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalPrice = document.getElementById("modalPrice");
-      const modalImages = document.getElementById("modalImages");
-      const buyLink = document.getElementById("buyLink");
-     document.getElementById("paymentAmount").innerText = `Amount: ₹${price}`;
+        function remove(idx) { cart.splice(idx, 1); updateCart(); }
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
-      modalTitle.innerText = `Elite ID #${id}`;
-      modalPrice.innerHTML = `<span class="price-tag">₹${price}</span>`;
+        // Checkout logic
+        function openCheckout() {
+            if(cart.length === 0) return alert("Bag is empty!");
+            const total = document.getElementById('totalPrice').innerText;
+            document.getElementById('payAmount').innerText = total;
+            document.getElementById('qrImg').src = 'qr.jpg'; 
+            document.getElementById('checkout-modal').style.display = 'flex';
+        }
 
-      modalImages.innerHTML = "";
-      product.gallery.forEach((url, index) => {
-        const img = document.createElement("img");
-        img.src = url;
-        img.alt = `FF ID ${id}`;
-        img.className = "gallery-img";
-        img.onclick = (e) => {
-          e.stopPropagation();
-          openImageViewer(product.gallery, index);
-        };
-        modalImages.appendChild(img);
-      });
+        function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
 
-      buyLink.onclick = (e) => {
-        e.preventDefault();
-        closeModal();
-        document.getElementById("paymentOptionsModal").classList.remove("hidden");
-        document.body.style.overflow = 'hidden';
-      };
+        function finishOrder() {
+            const n = document.getElementById('cName').value;
+            if(!n) return alert("Please enter your name!");
+            alert("Order Confirmed! Contacting you on WhatsApp for ID Login details.");
+            cart = []; updateCart(); closeCheckout();
+        }
 
-      modal.classList.remove("hidden");
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closePaymentOptions() {
-      document.getElementById("paymentOptionsModal").classList.add("hidden");
-      document.body.style.overflow = 'auto';
-    }
-
-    function showQR(method) {
-      document.getElementById("paymentOptionsModal").classList.add("hidden");
-      const qrModal = document.getElementById("qrModal");
-      document.getElementById("paymentMethodTitle").innerText = `Pay via ${method}`;
-      qrModal.classList.remove("hidden");
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeQRModal() {
-      document.getElementById("qrModal").classList.add("hidden");
-      document.body.style.overflow = 'auto';
-    }
-  </script>
+        renderGrid();
+    </script>
 </body>
-
 </html>
-
-
-
